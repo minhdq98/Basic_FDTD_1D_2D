@@ -6,10 +6,10 @@ clear
 %% I. Set up the parameters
 
 % 1. Basic parameters
-L = 40; % Length of the simulation space, unit: um
-W = 40; % Width of the simulation space, unit: um
-Nx = 400; % Number of grid points in the x axis
-Ny = 400; % Number of grid points in the y axis
+L = 50; % Length of the simulation space, unit: um
+W = 50; % Width of the simulation space, unit: um
+Nx = 500; % Number of grid points in the x axis
+Ny = 500; % Number of grid points in the y axis
 dx = L/Nx; % Size of a pixel, unit: um
 c0 = 300; % Speed of light in free-space, unit: um/ps
 dt = 0.8/(c0*sqrt(2/dx^2)); % Time step that meets the CFL condition
@@ -70,11 +70,11 @@ end
 if scen == 4
     % Couple radiation to surface plasmon polariton with Otto configuration
     % Insert a prism of angle thetap, permittivity epsp at Np
-    thetap = (pi/180)*45; % Angle of the prism, unit: degrees
+    thetap = (pi/180)*50; % Angle of the prism, unit: degrees
     epsp = 4; % Permittivity of the prism
     Np = Ny*2/5; % Position of the base of the prism
     for i = 0:Np-1
-        eps(Np-i,round(1+i/tan(thetap)):round(Nx-i/tan(thetap))) = epsp;
+        eps(Np-i,round(1+i/tan(thetap)):round(Nx*3/5-i/tan(thetap))) = epsp;
     end
     % Insert a dispersive metallic layer of thickness Nm at ym
     Nm = Ny/10; % Thickness of the metallic surface
@@ -148,8 +148,8 @@ NR = Nx-NPML-1;
 % 2. Set the plane wave source
 T = 20; % Settling time of the source
 A0 = 1; % Stable amplitude of the source
-L0 = Nx/4; % Length of the source
-theta = (pi/180)*45; % Oblique angle of the source, unit: radian
+L0 = Nx/8; % Length of the source
+theta = (pi/180)*50; % Oblique angle of the source, unit: radian
 Nxs = NPML; % Position of first point of the source in the x axis
 Nys = round(NPML+L0*sin(theta)); % Position of first point of the source in the y axis
 
@@ -231,7 +231,7 @@ while(1) % Keep the simulation running until the user cancels it
     Py1(NF:NB,NL:NR) = Py(NF:NB,NL:NR);
     % 3.9. Display results
     figure(1)
-    image = imagesc(x,y,real(Hz),[-1 1]);
+    image = imagesc(x,y,real(Hz),[-0.2 0.2]);
     colorbar
     colormap jet
     
